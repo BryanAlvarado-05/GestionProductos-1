@@ -1,0 +1,71 @@
+﻿@page "/producto"
+@using GestionProductos.Class.Producto
+@inject ProductoService productoService
+@inject NavigationManager navigationManager
+
+<h1>Gestión de Productos</h1>
+
+<hr />
+
+<button class="btn btn-primary mb-3" @onclick="nuevo">
+    + Nuevo Producto
+</button>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Precio</th>
+            <th>Descripción</th>
+            <th>Opciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var fila in lista)
+        {
+            <tr>
+                <td>@fila.idproducto</td>
+                <td>@fila.nombre</td>
+                <td>@fila.precio</td>
+                <td>@fila.descripcion</td>
+                <td>
+                    <button class="btn btn-warning btn-sm"
+                            @onclick="(() => editar(fila.idproducto))">
+                        Editar
+                    </button>
+                    <button class="btn btn-danger btn-sm"
+                            @onclick="(() => eliminar(fila.idproducto))">
+                        Eliminar
+                    </button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@code {
+    public List<ProductoListCLS> lista = new List<ProductoListCLS>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        lista = await productoService.listaProductos();
+    }
+
+    private void nuevo()
+    {
+        navigationManager.NavigateTo("/producto/nuevo");
+    }
+
+    private void editar(int id)
+    {
+        navigationManager.NavigateTo("/producto/editar/" + id);
+    }
+
+    private void eliminar(int id)
+    {
+        productoService.eliminarProducto(id);
+        lista = productoService.listaProductos().Result;
+        StateHasChanged();
+    }
+}

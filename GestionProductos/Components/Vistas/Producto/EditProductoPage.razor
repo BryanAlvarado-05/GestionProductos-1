@@ -1,0 +1,57 @@
+﻿@page "/producto/editar/{idproducto:int}"
+@using GestionProductos.Class.Producto
+@inject ProductoService productoService
+@inject NavigationManager navigationManager
+
+<h1>Editar Producto</h1>
+
+<hr />
+
+<EditForm Model="@oProducto" OnValidSubmit="guardar">
+    <DataAnnotationsValidator />
+
+    <div class="mb-3">
+        <label>Nombre</label>
+        <InputText class="form-control" @bind-Value="oProducto.nombre" />
+        <ValidationMessage For="@(() => oProducto.nombre)" />
+    </div>
+
+    <div class="mb-3">
+        <label>Precio</label>
+        <InputNumber class="form-control" @bind-Value="oProducto.precio" />
+        <ValidationMessage For="@(() => oProducto.precio)" />
+    </div>
+
+    <div class="mb-3">
+        <label>Descripción</label>
+        <InputText class="form-control" @bind-Value="oProducto.descripcion" />
+        <ValidationMessage For="@(() => oProducto.descripcion)" />
+    </div>
+
+    <button class="btn btn-success" type="submit">Guardar</button>
+    <button class="btn btn-danger" type="button" @onclick="regresar">Volver</button>
+
+</EditForm>
+
+@code {
+    [Parameter]
+    public int idproducto { get; set; }
+
+    public ProductoListCLS oProducto { get; set; } = new ProductoListCLS();
+
+    protected override async Task OnParametersSetAsync()
+    {
+        oProducto = await productoService.recuperarProductoId(idproducto);
+    }
+
+    private void guardar()
+    {
+        productoService.actualizarProducto(oProducto);
+        navigationManager.NavigateTo("/producto");
+    }
+
+    private void regresar()
+    {
+        navigationManager.NavigateTo("/producto");
+    }
+}

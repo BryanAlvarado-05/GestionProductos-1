@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="GestionProductos.Class/GestionProductos.Class.csproj" />
+  <Project Path="GestionProductos/GestionProductos.csproj">
+    <Deploy Solution="Debug|*" />
+  </Project>
+</Solution>
