@@ -1,36 +1,40 @@
-﻿@page "/producto/nuevo"
+﻿@page "/productos/nuevo"
 @using GestionProductos.Class.Producto
 @inject ProductoService productoService
 @inject NavigationManager navigationManager
 
 <h1>Nuevo Producto</h1>
-
 <hr />
 
 <EditForm Model="@oProducto" OnValidSubmit="guardar">
     <DataAnnotationsValidator />
 
     <div class="mb-3">
-        <label>Nombre</label>
-        <InputText class="form-control" @bind-Value="oProducto.nombre" />
-        <ValidationMessage For="@(() => oProducto.nombre)" />
+        <label class="form-label">Nombre</label>
+        <InputText class="form-control" @bind-Value="oProducto.Nombre" />
+        <ValidationMessage For="@(() => oProducto.Nombre)" />
     </div>
 
     <div class="mb-3">
-        <label>Precio</label>
-        <InputNumber class="form-control" @bind-Value="oProducto.precio" />
-        <ValidationMessage For="@(() => oProducto.precio)" />
+        <label class="form-label">Categoría</label>
+        <InputText class="form-control" @bind-Value="oProducto.Categoria" />
+        <ValidationMessage For="@(() => oProducto.Categoria)" />
     </div>
 
     <div class="mb-3">
-        <label>Descripción</label>
-        <InputText class="form-control" @bind-Value="oProducto.descripcion" />
-        <ValidationMessage For="@(() => oProducto.descripcion)" />
+        <label class="form-label">Precio</label>
+        <InputNumber class="form-control" @bind-Value="oProducto.Precio" />
+        <ValidationMessage For="@(() => oProducto.Precio)" />
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Stock</label>
+        <InputNumber class="form-control" @bind-Value="oProducto.Stock" />
+        <ValidationMessage For="@(() => oProducto.Stock)" />
     </div>
 
     <button class="btn btn-success" type="submit">Guardar</button>
-    <button class="btn btn-danger" type="button" @onclick="regresar">Volver</button>
-
+    <button class="btn btn-secondary" type="button" @onclick="regresar">Volver</button>
 </EditForm>
 
 @code {
@@ -39,11 +43,11 @@
     private void guardar()
     {
         productoService.agregarProducto(oProducto);
-        navigationManager.NavigateTo("/producto");
+        navigationManager.NavigateTo("/productos");
     }
 
     private void regresar()
     {
-        navigationManager.NavigateTo("/producto");
+        navigationManager.NavigateTo("/productos");
     }
 }
